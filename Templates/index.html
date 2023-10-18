@@ -1,0 +1,91 @@
+<DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">CheckList</span>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="input-group mb-3">
+            <label for="inputTxt" class="input-group-text">Upload</label>
+            <input type="file" class="form-control" id="inputTxt" aria-describedby="inputTxt">
+            <button class="btn btn-primary" type="button" onclick="readTxt()">Enviar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Pergunta</th>
+                    <th scope="col">Verdadeiro</th>
+                    <th scope="col">Falso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A pergunta foi inserida corretamente?</td>
+                    <td><input class="form-check-input" type="radio" name="01"></td>
+                    <td><input class="form-check-input" type="radio" name="01"></td>
+                </tr>
+                <tr>
+                    <td>A pergunta foi inserida corretamente?</td>
+                    <td><input class="form-check-input" type="radio" name="02"></td>
+                    <td><input class="form-check-input" type="radio" name="02"></td>
+                </tr>
+                <tr>
+                    <td>A pergunta foi inserida corretamente?</td>
+                    <td><input class="form-check-input" type="radio" name="03"></td>
+                    <td><input class="form-check-input" type="radio" name="03"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+
+        function readTxt(){
+            var file = document.getElementById("inputTxt").files[0];
+
+            if(!file){
+                alert("Não foi possível ler o arquivo");
+                document.getElementById("inputTxt").value = "";
+                return;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                var content = e.target.result;
+                var lines = content.split("\n");
+                var data = [];
+
+                for(var i = 0; i < lines.length; i++){
+                    lines[i] = lines[i].replace("\r", "");
+                    data.push(lines[i]);
+                }
+
+                return data;
+            }
+
+            
+        }
+
+        function createCheckBox(arr_perg){
+
+        }
+
+
+    </script>
+</body>
+</html>
