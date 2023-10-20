@@ -1,0 +1,298 @@
+<DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">CheckList</span>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="input-group mb-3">
+            <label for="inputTxt" class="input-group-text">Upload</label>
+            <input type="file" class="form-control" id="inputTxt" aria-describedby="inputTxt">
+            <button class="btn btn-primary" type="button" onclick="readTxt()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+
+        function readTxt(){
+            var file = document.getElementById("inputTxt").files[0];
+            var reader = new FileReader();
+            var arr = [];
+
+            reader.onload = function (e) {
+                var text = reader.result;
+                for(var i = 0; i < text.length; i++){
+                    if(text[i] == "\r"){
+                        text = text.replace("\r", "");
+                    }
+                }
+                arr = text.split("\n");
+                createFields(arr);
+            };
+
+            reader.readAsText(file);
+        }
+
+        function createFields(arr_perg){
+            
+            //Verificar se div-perg já existe, se sim, remover
+            if(document.getElementById("div-perg")){
+                document.getElementById("div-perg").remove();
+            }
+
+            if(document.getElementById("div-btn")){
+                document.getElementById("div-btn").remove();
+            }
+
+            //Criar div-perg e adicionar ao body, class="container", id="div-perg"
+            var div_perg = document.createElement("div");
+
+            div_perg.setAttribute("class", "container");
+
+            div_perg.setAttribute("id", "div-perg");
+
+            //Criar table e adicionar a div-perg, class="table table-striped table-hover table-bordered"
+
+            var table = document.createElement("table");
+
+            table.setAttribute("class", "table table-striped table-hover table-bordered");
+
+            div_perg.appendChild(table);
+
+            //Criar thead e adicionar a table
+
+            var thead = document.createElement("thead");
+
+            table.appendChild(thead);
+
+            //Criar tr e adicionar a thead
+
+            var tr = document.createElement("tr");
+
+            thead.appendChild(tr);
+
+            //Criar th e adicionar a tr, scope="col"
+
+            for(var i = 0; i < 3; i++){
+                var th = document.createElement("th");
+                th.setAttribute("scope", "col");
+                switch (i) {
+                    case 0:
+                        th.innerHTML = "Pergunta";
+                        break;
+                    case 1:
+                        th.innerHTML = "Verdadeiro";
+                        break;
+                    default:
+                        th.innerHTML = "Falso";
+                        break;
+                }
+                tr.appendChild(th);
+            }
+
+            //Criar tbody e adicionar a table
+
+            var tbody = document.createElement("tbody");
+
+            table.appendChild(tbody);
+
+            //Criar tr e adicionar a tbody, adicionar uma para cada pergunta
+
+            for(i = 0; i < arr_perg.length; i++){
+                
+                var tr = document.createElement("tr");
+
+                for(j = 0; j < 3; j++){
+
+                    var td = document.createElement("td");
+
+                    switch (j) {
+                        case 0:
+                            td.innerHTML = arr_perg[i];
+                            tr.setAttribute("pergunta", i)
+                            break;
+                        case 1:
+                            var input = document.createElement("input");
+                            input.setAttribute("class", "form-check-input");
+                            input.setAttribute("type", "radio");
+                            input.setAttribute("name", i);
+                            input.setAttribute("id_perg_verd", i)
+                            td.appendChild(input);
+                            break;
+                        default:
+                            var input = document.createElement("input");
+                            input.setAttribute("class", "form-check-input");
+                            input.setAttribute("type", "radio");
+                            input.setAttribute("name", i);
+                            input.setAttribute("id_perg_fals", i)
+
+                            //Caso marcar falso, um campo de input deve aparecer
+                            td.appendChild(input);
+                            break;
+                    }
+
+                    tr.appendChild(td);
+
+                }
+
+                tbody.appendChild(tr);
+
+            }
+
+            //Adicionar div-perg ao body
+
+            document.body.appendChild(div_perg);
+
+            var div = document.createElement("div");
+
+            div.setAttribute("class", "container");
+
+            div.setAttribute("id", "div-btn");
+
+            var btn = document.createElement("button");
+            btn.setAttribute("class", "btn btn-primary");
+            btn.setAttribute("type", "button");
+            btn.setAttribute("onclick", "apagarCampos()");
+            btn.setAttribute("style", "margin-right: 10px;");
+            btn.innerHTML = "Apagar Campos";
+            
+            div.appendChild(btn);
+
+            document.body.appendChild(div);
+        }
+
+        function apagarCampos(){
+            var inputs = document.getElementsByTagName("input");
+
+            for(var i = 0; i < inputs.length; i++){
+                if(inputs[i].getAttribute("type") == "radio"){
+                    inputs[i].checked = false;
+                }
+            }
+
+            if(document.getElementById("btn-enviar")){
+                document.getElementById("btn-enviar").remove();
+            }
+        }
+
+        function enviar(){
+            //Enviar dados para api por formato json
+
+            var arr_perg = [];
+            var arr_resp = [];
+
+            var perguntas = document.getElementsByTagName("tr");
+
+            for(var i = 0; i < perguntas.length; i++){
+                if(perguntas[i].getAttribute("pergunta") != null){
+
+                    //Replace /t/t
+                    var pergunta = perguntas[i].getElementsByTagName("td")[0].innerHTML;
+                    for(var j = 0; j < pergunta.length; j++){
+                        if(pergunta[j] == "\t"){
+                            pergunta = pergunta.replace("\t", "");
+                        }
+                    }
+
+                    arr_perg.push(pergunta);
+                }
+            }
+
+            console.log(arr_perg);
+
+            var inputs = document.getElementsByTagName("input");
+
+            for(var i = 0; i < inputs.length; i++){
+                if(inputs[i].getAttribute("type") == "radio"){
+                    if(inputs[i].checked){
+                        if(inputs[i].getAttribute("id_perg_verd") != null){
+                            arr_resp.push(1);
+                        }else{
+                            arr_resp.push(0);
+                        }
+                    }
+                }
+            }
+
+            console.log(arr_resp);
+
+            var json = {
+                "perguntas": arr_perg,
+                "respostas": arr_resp
+            };
+
+            var xhttp = new XMLHttpRequest();
+            var url = "http://127.0.0.1:5000/handle_radio_data"
+
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(JSON.stringify(json));
+
+            xhttp.onreadystatechange = function(){
+                if(this.readyState == 4 && this.status == 200){
+                    var response = JSON.parse(this.responseText);
+                }
+            }
+        }
+
+        //Caso todos os campos forem marcados, criar botão de input
+        window.addEventListener("click", function(){
+
+
+            if(!document.getElementById("div-perg")){
+                return;
+            }
+
+            var inputs_totais_pagina = document.getElementsByTagName("input");
+
+            var inputs_totais = [];
+
+            for(var i = 0; i < inputs_totais_pagina.length; i++){
+                if(inputs_totais_pagina[i].getAttribute("type") == "radio"){
+                    inputs_totais.push(inputs_totais_pagina[i]);
+                }
+            }
+
+            var inputs_selecionados = [];
+            for(var i = 0; i < inputs_totais.length; i++){
+                if(inputs_totais[i].checked){
+                    inputs_selecionados.push(inputs_totais[i]);
+                }
+            }
+
+            if(inputs_selecionados.length == inputs_totais.length / 2){
+
+                if(document.getElementById("btn-enviar")){
+                    return;
+                }
+
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "btn btn-primary");
+                btn.setAttribute("type", "button");
+                btn.setAttribute("onclick", "enviar()");
+                btn.setAttribute("id", "btn-enviar");
+                btn.innerHTML = "Continuar";
+
+                var div = document.getElementById("div-btn");
+
+                div.setAttribute("class", "container");
+
+                div.appendChild(btn);
+
+                document.body.appendChild(div);
+            }
+        });
+    </script>
+</body>
+</html>
