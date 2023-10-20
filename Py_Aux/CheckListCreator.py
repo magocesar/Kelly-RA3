@@ -2,7 +2,7 @@ from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from openpyxl.styles import Alignment
 from copy import copy
-from openpyxl.chart import PieChart, ProjectedPieChart, Reference
+from openpyxl.chart import PieChart, Reference
 from time import time
 
 class CheckListCreator:
