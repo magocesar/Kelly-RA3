@@ -246,6 +246,8 @@
             }
         }
 
+        var div_perg = document.getElementById("div-perg");
+
         //Caso todos os campos forem marcados, criar botão de input
         window.addEventListener("click", function(){
 
@@ -254,6 +256,10 @@
                 return;
             }
 
+            botaoContinuar();
+        });
+
+        function botaoContinuar(){
             var inputs_totais_pagina = document.getElementsByTagName("input");
 
             var inputs_totais = [];
@@ -292,7 +298,9 @@
 
                 document.body.appendChild(div);
             }
-        });
+        }
+
+        
     </script>
 </body>
 </html>
