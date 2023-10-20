@@ -326,8 +326,11 @@
             xhttp.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
                     var response = JSON.parse(this.responseText);
+
                 }
             }
+            alert("Enviado com sucesso!");
+            location.reload();
         }
 
         //Caso todos os campos forem marcados, criar botão de input
@@ -375,7 +378,9 @@
                 div.appendChild(btn);
 
                 document.body.appendChild(div);
+                
             }
+
         });
     </script>
 </body>
