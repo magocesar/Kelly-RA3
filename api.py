@@ -14,7 +14,7 @@ def handle_ratio_data():
     
     cc = CheckListCreator(request_data['perguntas'], request_data['respostas'])
 
-    cc.start()
+    rep = cc.start()
 
     return render_template('index.html')
 

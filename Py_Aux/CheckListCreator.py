@@ -2,7 +2,7 @@ from openpyxl import Workbook
 from openpyxl.worksheet.table import Table, TableStyleInfo
 from openpyxl.styles import Alignment
 from copy import copy
-from openpyxl.chart import PieChart, ProjectedPieChart, Reference, series
+from openpyxl.chart import PieChart, ProjectedPieChart, Reference
 from time import time
 
 class CheckListCreator:
@@ -15,7 +15,8 @@ class CheckListCreator:
         self._create_checklist()
         self.create_metrics()
         self.insert_special_table()
-        self.save()
+        rep = self.save()
+        return rep
 
     def _create_checklist(self):
         ws = self.template.active
@@ -104,3 +105,4 @@ class CheckListCreator:
     def save(self):
         currentTime = time()
         self.template.save(f'Excel/CheckList_{currentTime}.xlsx')
+        return f'Excel/CheckList_{currentTime}.xlsx'
