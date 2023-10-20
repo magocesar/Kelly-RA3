@@ -6,9 +6,10 @@ from openpyxl.chart import PieChart, Reference
 from time import time
 
 class CheckListCreator:
-    def __init__(self, perguntas, respostas):
+    def __init__(self, perguntas, respostas, nome_proj):
         self.perguntas = perguntas
         self.respostas = respostas
+        self.nome_proj = nome_proj
         self.template = Workbook()
 
     def start(self):
@@ -98,11 +99,11 @@ class CheckListCreator:
 
         pie.set_categories(labels)
 
-        pie.title = "Gráfico de Conformidades"
+        pie.title = "Gráfico de Conformidades: " + f"{self.nome_proj}"
 
         ws.add_chart(pie, "D4")
 
     def save(self):
         currentTime = time()
-        self.template.save(f'Excel/CheckList_{currentTime}.xlsx')
-        return f'Excel/CheckList_{currentTime}.xlsx'
+        self.template.save(f"Excel/CheckList_{self.nome_proj}_{currentTime}.xlsx")
+        return f"Excel/CheckList_{self.nome_proj}_{currentTime}.xlsx"

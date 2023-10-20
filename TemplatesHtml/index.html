@@ -18,9 +18,38 @@
             <span class="navbar-brand mb-0 h1 al">CheckList para Artefatos - Qualidade de Software 4°</span>
         </div>
     </nav>
+
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">Nome do Projeto</label>
+            <input type="text" class="form-control" id="NomeProj" aria-describedby="inputTxt">
+        </div>
+    </div>
+
+    
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">Responsável</label>
+            <input type="text" class="form-control" id="ResponsavelProj" aria-describedby="inputTxt">
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">RQA Projeto</label>
+            <input type="text" class="form-control" id="RQA Proj" aria-describedby="inputTxt">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">Email para envio de NC</label>
+            <input type="email" class="form-control" id="EmailNC" aria-describedby="inputTxt">
+        </div>
+    </div>
     
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <div class="input-group mb-3">
             <label for="inputTxt" class="input-group-text">Upload</label>
             <input type="file" class="form-control" id="inputTxt" aria-describedby="inputTxt">
@@ -174,12 +203,13 @@
                             td.appendChild(input);
                             break;
                         case 3:
-                            var justificativa = document.createElement('input');
+                            var justificativa = document.createElement('textarea');
                             justificativa.type = 'text';
                             justificativa.className = 'form-control justificativa';
                             justificativa.style.display = 'none';
                             justificativa.name = i;
-                            justificativa.placeholder = 'Motivo da não conformidade'
+                            justificativa.placeholder = 'Preencha os Campos da NC'
+                            justificativa.setAttribute("justificativa", i)
                             td.appendChild(justificativa);
 
                             break;
@@ -275,6 +305,8 @@
 
             var arr_perg = [];
             var arr_resp = [];
+            var arr_text_area = [];
+            var arr_gravidade = [];
 
             var perguntas = document.getElementsByTagName("tr");
 
@@ -311,9 +343,31 @@
 
             console.log(arr_resp);
 
+            var textareas = document.getElementsByTagName("textarea");
+
+            for(var i = 0; i < textareas.length; i++){
+                arr_text_area.push(textareas[i].value);
+            }
+
+            console.log(arr_text_area);
+
+            var gravidades = document.getElementsByTagName("select");
+
+            for(var i = 0; i < gravidades.length; i++){
+                arr_gravidade.push(gravidades[i].value);
+            }
+
+            console.log(arr_gravidade);
+
             var json = {
                 "perguntas": arr_perg,
-                "respostas": arr_resp
+                "respostas": arr_resp,
+                "justificativas": arr_text_area,
+                "gravidades": arr_gravidade,
+                "nome_projeto": document.getElementById("NomeProj").value,
+                "responsavel_projeto": document.getElementById("ResponsavelProj").value,
+                "rqa_projeto": document.getElementById("RQA Proj").value,
+                "email_nc": document.getElementById("EmailNC").value
             };
 
             var xhttp = new XMLHttpRequest();
@@ -341,6 +395,10 @@
                 return;
             }
 
+            if(document.getElementById("btn-enviar")){
+                document.getElementById("btn-enviar").remove();
+            }
+
             var inputs_totais_pagina = document.getElementsByTagName("input");
 
             var inputs_totais = [];
@@ -352,13 +410,39 @@
             }
 
             var inputs_selecionados = [];
+
             for(var i = 0; i < inputs_totais.length; i++){
                 if(inputs_totais[i].checked){
                     inputs_selecionados.push(inputs_totais[i]);
                 }
             }
 
-            if(inputs_selecionados.length == inputs_totais.length / 2){
+            var inputs_falsos_selecionados = [];
+            for(var i = 0; i < inputs_totais.length; i++){
+                if(inputs_totais[i].getAttribute("id_perg_fals") != null){
+                    if(inputs_totais[i].checked){
+                        inputs_falsos_selecionados.push(inputs_totais[i]);
+                    }
+                }
+            }
+
+            var textareas = document.getElementsByTagName("textarea");
+            var textarea_preenchidos = [];
+
+            for(var i = 0; i < textareas.length; i++){
+                if(textareas[i].value != ""){
+                    textarea_preenchidos.push(textareas[i]);
+                }
+            }
+
+            const regex_email = /\S+@\S+\.\S+/;
+
+            if(!regex_email.test(document.getElementById("EmailNC").value)){
+                return;
+            }
+
+            if(inputs_selecionados.length == inputs_totais.length / 2 && inputs_falsos_selecionados.length == textarea_preenchidos.length
+                && document.getElementById("NomeProj").value != "" && document.getElementById("ResponsavelProj").value != "" && document.getElementById("RQA Proj").value != ""){
 
                 if(document.getElementById("btn-enviar")){
                     return;
