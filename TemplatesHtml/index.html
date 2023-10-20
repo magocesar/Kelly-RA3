@@ -6,13 +6,19 @@
     <title>Get Started!</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+<style>
+    .container {
+        max-width: 90%; /* Remove a largura máxima */
+    }
+</style>
 <body>
 
     <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">CheckList</span>
+        <div class="container-fluid d-flex justify-content-center">
+            <span class="navbar-brand mb-0 h1 al">CheckList para Artefatos - Qualidade de Software 4°</span>
         </div>
     </nav>
+    
 
     <div class="container mt-5">
         <div class="input-group mb-3">
@@ -84,7 +90,7 @@
 
             //Criar th e adicionar a tr, scope="col"
 
-            for(var i = 0; i < 3; i++){
+            for(var i = 0; i < 5; i++){
                 var th = document.createElement("th");
                 th.setAttribute("scope", "col");
                 switch (i) {
@@ -92,14 +98,25 @@
                         th.innerHTML = "Pergunta";
                         break;
                     case 1:
-                        th.innerHTML = "Verdadeiro";
+                        th.innerHTML = "True";
+                        break;
+                    case 2:
+                        th.innerHTML = "False";
+                        break;
+                    case 3: 
+                        th.innerHTML = "Justificativa";
+                        
                         break;
                     default:
-                        th.innerHTML = "Falso";
+                        th.innerHTML = "Gravidade";
+                        
                         break;
+
                 }
                 tr.appendChild(th);
             }
+
+            
 
             //Criar tbody e adicionar a table
 
@@ -109,37 +126,91 @@
 
             //Criar tr e adicionar a tbody, adicionar uma para cada pergunta
 
-            for(i = 0; i < arr_perg.length; i++){
-                
+            for (i = 0; i < arr_perg.length; i++) {
                 var tr = document.createElement("tr");
 
-                for(j = 0; j < 3; j++){
+                for (j = 0; j < 5; j++) {
 
                     var td = document.createElement("td");
 
                     switch (j) {
                         case 0:
                             td.innerHTML = arr_perg[i];
-                            tr.setAttribute("pergunta", i)
+                            tr.setAttribute("pergunta", i);
                             break;
                         case 1:
                             var input = document.createElement("input");
                             input.setAttribute("class", "form-check-input");
                             input.setAttribute("type", "radio");
                             input.setAttribute("name", i);
-                            input.setAttribute("id_perg_verd", i)
+                            input.setAttribute("id_perg_verd", i);
+                            input.onclick = function () {
+                                var tr = this.closest('tr');
+                                var justificativa = tr.querySelector('.justificativa');
+                                var gravidade = tr.querySelector('.gravidade');
+
+                                justificativa.style.display = 'none';
+                                gravidade.style.display = 'none';
+                            }
                             td.appendChild(input);
                             break;
-                        default:
+
+                        case 2:
                             var input = document.createElement("input");
                             input.setAttribute("class", "form-check-input");
                             input.setAttribute("type", "radio");
                             input.setAttribute("name", i);
-                            input.setAttribute("id_perg_fals", i)
+                            input.setAttribute("id_perg_fals", i);
 
-                            //Caso marcar falso, um campo de input deve aparecer
+                            input.onclick = function () {
+                                var tr = this.closest('tr');
+                                var justificativa = tr.querySelector('.justificativa');
+                                var gravidade = tr.querySelector('.gravidade');
+
+                                justificativa.style.display = 'block';
+                                gravidade.style.display = 'block';
+                            }
+
                             td.appendChild(input);
                             break;
+                        case 3:
+                            var justificativa = document.createElement('input');
+                            justificativa.type = 'text';
+                            justificativa.className = 'form-control justificativa';
+                            justificativa.style.display = 'none';
+                            justificativa.name = i;
+                            justificativa.placeholder = 'Motivo da não conformidade'
+                            td.appendChild(justificativa);
+
+                            break;
+
+                            
+
+                        default:
+                            var gravidade = document.createElement('select');
+                            gravidade.className = 'form-control gravidade';
+                            gravidade.style.display = 'none'; 
+                            gravidade.name = i;
+
+                            var alta = document.createElement('option');
+                            alta.value = 'alta';
+                            alta.textContent = 'Alta / 3 dias';
+
+                            var media = document.createElement('option');
+                            media.value = 'media';
+                            media.textContent = 'Média / 2 dias';
+
+                            var baixa = document.createElement('option');
+                            baixa.value = 'baixa';
+                            baixa.textContent = 'Baixa / 1 dia';
+
+                            gravidade.appendChild(alta);
+                            gravidade.appendChild(media);
+                            gravidade.appendChild(baixa);
+
+                            td.appendChild(gravidade);
+                            break;
+                        
                     }
 
                     tr.appendChild(td);
@@ -149,6 +220,7 @@
                 tbody.appendChild(tr);
 
             }
+
 
             //Adicionar div-perg ao body
 
@@ -173,19 +245,31 @@
         }
 
         function apagarCampos(){
-            var inputs = document.getElementsByTagName("input");
+        var inputs = document.getElementsByTagName("input");
 
-            for(var i = 0; i < inputs.length; i++){
-                if(inputs[i].getAttribute("type") == "radio"){
-                    inputs[i].checked = false;
-                }
-            }
-
-            if(document.getElementById("btn-enviar")){
-                document.getElementById("btn-enviar").remove();
+        for(var i = 0; i < inputs.length; i++){
+            if(inputs[i].getAttribute("type") == "radio"){
+                inputs[i].checked = false;
             }
         }
 
+        var trs = document.getElementsByTagName('tr');
+
+        for (var i = 0; i < trs.length; i++) {
+            var tr = trs[i];
+            var justificativa = tr.querySelector('.justificativa');
+            var gravidade = tr.querySelector('.gravidade');
+
+            if (justificativa && gravidade) {
+                justificativa.style.display = 'none';
+                gravidade.style.display = 'none';
+            }
+        }
+
+        if(document.getElementById("btn-enviar")){
+            document.getElementById("btn-enviar").remove();
+        }
+    }
         function enviar(){
             //Enviar dados para api por formato json
 
@@ -246,8 +330,6 @@
             }
         }
 
-        var div_perg = document.getElementById("div-perg");
-
         //Caso todos os campos forem marcados, criar botão de input
         window.addEventListener("click", function(){
 
@@ -256,10 +338,6 @@
                 return;
             }
 
-            botaoContinuar();
-        });
-
-        function botaoContinuar(){
             var inputs_totais_pagina = document.getElementsByTagName("input");
 
             var inputs_totais = [];
@@ -298,9 +376,7 @@
 
                 document.body.appendChild(div);
             }
-        }
-
-        
+        });
     </script>
 </body>
 </html>
