@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 from Py_Aux.CheckListCreator import CheckListCreator
+from Py_Aux.CreateNc import CreateNc
+from Py_Aux.EmailNc import EmailNc
+import os
 
 app = Flask(__name__, template_folder='TemplatesHtml')
 
@@ -11,14 +14,33 @@ def hello():
 def handle_ratio_data():
 
     request_data = request.get_json()
-
-    print(request_data)
     
     cc = CheckListCreator(request_data['perguntas'], request_data['respostas'], request_data['nome_projeto'])
 
-    rep = cc.start()
+    nc = CreateNc(request_data['perguntas'], request_data['respostas'], request_data['justificativas'], request_data['gravidades'], request_data['nome_projeto'], request_data['responsavel_projeto'], request_data['rqa_projeto'])
 
-    return render_template('index.html')
+    dir_nc, len_nc = nc.start()
+
+    if dir_nc == False or len_nc == False:
+        print("dir_nc or len_nc == False")
+        return jsonify({'status': 'Error', 'message': "Verifique se algum arquivo .xlsx está aberto."})
+
+    dir_cc = cc.start()
+
+    if dir_cc == False:
+        print("dir_cc == False")
+        for file in os.listdir(dir_nc):
+            os.remove(f"{dir_nc}/{file}")
+        os.rmdir(dir_nc)
+        return jsonify({'status': 'Error', 'message': "Verifique se algum arquivo .xlsx está aberto."})
+    
+
+    if(len_nc > 0):
+        email = EmailNc(request_data['nome_projeto'], request_data['responsavel_projeto'], request_data['rqa_projeto'], dir_nc, len_nc, request_data['email_nc'])
+        email.mandarEmail()
+        return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso e email enviado.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
+    else:
+        return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso, nenhuma NC.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
 
 
 

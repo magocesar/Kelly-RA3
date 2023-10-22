@@ -4,6 +4,7 @@ from openpyxl.styles import Alignment
 from copy import copy
 from openpyxl.chart import PieChart, Reference
 from time import time
+import os
 
 class CheckListCreator:
     def __init__(self, perguntas, respostas, nome_proj):
@@ -13,11 +14,19 @@ class CheckListCreator:
         self.template = Workbook()
 
     def start(self):
+        self.createFolder()
         self._create_checklist()
         self.create_metrics()
         self.insert_special_table()
-        rep = self.save()
-        return rep
+        return self.save()
+    
+    def createFolder(self):
+        try:
+            if not os.path.exists("./ExcelCheckList"):
+                os.makedirs("./ExcelCheckList")
+        except:
+            print("Error")
+            return False
 
     def _create_checklist(self):
         ws = self.template.active
@@ -105,5 +114,5 @@ class CheckListCreator:
 
     def save(self):
         currentTime = time()
-        self.template.save(f"Excel/CheckList_{self.nome_proj}_{currentTime}.xlsx")
+        self.template.save(f"ExcelCheckList/CheckList_{self.nome_proj}_{currentTime}.xlsx")
         return f"Excel/CheckList_{self.nome_proj}_{currentTime}.xlsx"

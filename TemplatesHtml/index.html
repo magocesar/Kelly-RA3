@@ -227,7 +227,7 @@
                             alta.textContent = 'Alta / 3 dias';
 
                             var media = document.createElement('option');
-                            media.value = 'media';
+                            media.value = 'média';
                             media.textContent = 'Média / 2 dias';
 
                             var baixa = document.createElement('option');
@@ -379,12 +379,11 @@
 
             xhttp.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
+                    //The response is a json
                     var response = JSON.parse(this.responseText);
-
+                    alert(response.message);
                 }
             }
-            alert("Enviado com sucesso!");
-            location.reload();
         }
 
         //Caso todos os campos forem marcados, criar botão de input
