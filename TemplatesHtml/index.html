@@ -382,8 +382,10 @@
                     //The response is a json
                     var response = JSON.parse(this.responseText);
                     alert(response.message);
+                    location.reload();
                 }
             }
+            
         }
 
         //Caso todos os campos forem marcados, criar botão de input
