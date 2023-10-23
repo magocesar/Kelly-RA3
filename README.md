@@ -1,5 +1,7 @@
 # Kelly-RA3
 
+Esse trabalho é uma maneira automatizada para registro e acompanhamento de não-conformidade até sua resolução, gerando um excel com não conformidades, envia para email e por fim ele gera um excel da planilha.
+
 requirimentos:
 
 - pyhton 3.9.13 ou superior
