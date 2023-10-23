@@ -19,3 +19,11 @@ para rodar no terminal: python api.py
 
 <img width="941" alt="image" src="https://github.com/magocesar/Kelly-RA3/assets/107360437/f2fb84e8-2830-4ee4-b923-09c078355625">
 
+# Gerados:
+
+<img width="960" alt="image" src="https://github.com/magocesar/Kelly-RA3/assets/107360437/3252c2ab-1680-414d-9246-63e3874a0578">
+
+<img width="943" alt="image" src="https://github.com/magocesar/Kelly-RA3/assets/107360437/9cb65f4c-918f-4085-8b43-ceeb0db933d7">
+
+
+
