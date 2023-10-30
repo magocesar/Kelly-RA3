@@ -14,6 +14,8 @@ def hello():
 def handle_ratio_data():
 
     request_data = request.get_json()
+
+    print(request_data['precisa_escalonar'])
     
     cc = CheckListCreator(request_data['perguntas'], request_data['respostas'], request_data['nome_projeto'])
 

@@ -26,7 +26,6 @@
         </div>
     </div>
 
-    
     <div class="container">
         <div class="input-group mt-3">
             <label for="inputTxt" class="input-group-text">Responsável</label>
@@ -51,7 +50,7 @@
     <div class="container">
         <div class="input-group mt-3">
             <label for="inputTxt" class="input-group-text">Responsável de Escalonamento</label>
-            <input type="text" class="form-control" id="ResponsaveEscalonamento " aria-describedby="inputTxt">
+            <input type="text" class="form-control" id="ResponsavelEscalonamento " aria-describedby="inputTxt">
         </div>
     </div>
 
@@ -359,6 +358,7 @@
             var arr_perg = [];
             var arr_resp = [];
             var arr_text_area = [];
+            var arr_acao = [];
             var arr_gravidade = [];
 
             var perguntas = document.getElementsByTagName("tr");
@@ -399,10 +399,15 @@
             var textareas = document.getElementsByTagName("textarea");
 
             for(var i = 0; i < textareas.length; i++){
-                arr_text_area.push(textareas[i].value);
+                if(textareas[i].className == "form-control justificativa"){
+                    arr_text_area.push(textareas[i].value);
+                }else{
+
+                }arr_acao.push(textareas[i].value);
             }
 
             console.log(arr_text_area);
+            console.log(arr_acao);
 
             var gravidades = document.getElementsByTagName("select");
 
@@ -412,18 +417,30 @@
 
             console.log(arr_gravidade);
 
+            var emailNormal = document.getElementById("emailNormal")
+            var emailEscalonamento = document.getElementById("emailEscalonamento")
+            
+            if(emailNormal.checked){
+                var precisaEscalonar = false;
+            }else{
+                var precisaEscalonar = true;
+            }
+
+            console.log(precisaEscalonar);
+
             var json = {
                 "perguntas": arr_perg,
                 "respostas": arr_resp,
                 "justificativas": arr_text_area,
+                "acoes": arr_acao,
                 "gravidades": arr_gravidade,
                 "nome_projeto": document.getElementById("NomeProj").value,
                 "responsavel_projeto": document.getElementById("ResponsavelProj").value,
                 "rqa_projeto": document.getElementById("RQA Proj").value,
                 "email_nc": document.getElementById("EmailNC").value,
                 "email_nc_escalonamento": document.getElementById("EmailNCE").value,
-                "responsavel_escalonamento": document.getElementById("ResponsavelEscalonamento").value
-
+                "responsavel_escalonamento": document.getElementById("ResponsavelEscalonamento").value,
+                "precisa_escalonar": precisaEscalonar
             };
 
             var xhttp = new XMLHttpRequest();
@@ -495,10 +512,16 @@
             const regex_email = /\S+@\S+\.\S+/;
 
             if(!regex_email.test(document.getElementById("EmailNC").value)){
+                console.log("Email Normal Invalido")
                 return;
             }
 
-            if(inputs_selecionados.length == inputs_totais.length / 2 && inputs_falsos_selecionados.length == textarea_preenchidos.length
+            if(!regex_email.test(document.getElementById("EmailNCE").value)){
+                console.log("Email Escalonamento Invalido")
+                return;
+            }
+
+            if(inputs_selecionados.length == inputs_totais.length / 2 && inputs_falsos_selecionados.length == textarea_preenchidos.length / 2
                 && document.getElementById("NomeProj").value != "" && document.getElementById("ResponsavelProj").value != "" && document.getElementById("RQA Proj").value != ""){
 
                 if(document.getElementById("btn-enviar")){
@@ -521,7 +544,6 @@
                 document.body.appendChild(div);
                 
             }
-
         });
     </script>
 </body>
