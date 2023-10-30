@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container mt-3">
         <div class="input-group mb-3">
             <label for="inputTxt" class="input-group-text">Upload</label>
@@ -215,9 +215,9 @@
                                 var acao = tr.querySelector('.acao');
                                 var gravidade = tr.querySelector('.gravidade');
 
-                                justificativa.style.display = 'block';
-                                acao.style.display = 'block';
-                                gravidade.style.display = 'block';
+                                justificativa.style.display = 'none';
+                                acao.style.display = 'none';
+                                gravidade.style.display = 'none';
                             }
                             td.appendChild(input);
                             break;
@@ -339,10 +339,12 @@
         for (var i = 0; i < trs.length; i++) {
             var tr = trs[i];
             var justificativa = tr.querySelector('.justificativa');
+            var acao = tr.querySelector('.acao');
             var gravidade = tr.querySelector('.gravidade');
 
             if (justificativa && gravidade) {
                 justificativa.style.display = 'none';
+                acao.style.display = 'none';
                 gravidade.style.display = 'none';
             }
         }
