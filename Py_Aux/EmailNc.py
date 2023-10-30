@@ -40,6 +40,8 @@ class EmailNc:
         mail.Subject = f"Não Conformidades - {self.nome_proj}"
         mail.Body = f"""
         Olá {nome_supervisor},
+        Esse é um email de Escalonação de Não Conformidades.
+        Alguns itens do projeto {self.nome_proj} não estão em conformidade.
         Segue em anexo o(s) arquivo(s) de Não Conformidades do projeto {self.nome_proj}.
         Responsável do Projeto: {self.responsavel}
         RQA do Projeto: {self.rqa}
