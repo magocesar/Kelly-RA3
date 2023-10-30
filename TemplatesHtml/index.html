@@ -47,8 +47,39 @@
             <input type="email" class="form-control" id="EmailNC" aria-describedby="inputTxt">
         </div>
     </div>
-    
 
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">Responsável de Escalonamento</label>
+            <input type="text" class="form-control" id="ResponsaveEscalonamento " aria-describedby="inputTxt">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="input-group mt-3">
+            <label for="inputTxt" class="input-group-text">Email para envio de NC de Escalonamento</label>
+            <input type="email" class="form-control" id="EmailNCE" aria-describedby="inputTxt">
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Formulário de Envio de Email</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="emailNormal" name="tipoEmail" value="normal">
+                    <label class="form-check-label" for="emailNormal">Email Normal</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="emailEscalonamento" name="tipoEmail" value="escalonamento">
+                    <label class="form-check-label" for="emailEscalonamento">Email de Escalonamento</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="container mt-3">
         <div class="input-group mb-3">
             <label for="inputTxt" class="input-group-text">Upload</label>
@@ -119,7 +150,7 @@
 
             //Criar th e adicionar a tr, scope="col"
 
-            for(var i = 0; i < 5; i++){
+            for(var i = 0; i < 6; i++){
                 var th = document.createElement("th");
                 th.setAttribute("scope", "col");
                 switch (i) {
@@ -134,6 +165,11 @@
                         break;
                     case 3: 
                         th.innerHTML = "Justificativa";
+                        
+                        break;
+                    
+                    case 4: 
+                        th.innerHTML = "Ação Corretiva";
                         
                         break;
                     default:
@@ -158,7 +194,7 @@
             for (i = 0; i < arr_perg.length; i++) {
                 var tr = document.createElement("tr");
 
-                for (j = 0; j < 5; j++) {
+                for (j = 0; j < 6; j++) {
 
                     var td = document.createElement("td");
 
@@ -176,10 +212,12 @@
                             input.onclick = function () {
                                 var tr = this.closest('tr');
                                 var justificativa = tr.querySelector('.justificativa');
+                                var acao = tr.querySelector('.acao');
                                 var gravidade = tr.querySelector('.gravidade');
 
-                                justificativa.style.display = 'none';
-                                gravidade.style.display = 'none';
+                                justificativa.style.display = 'block';
+                                acao.style.display = 'block';
+                                gravidade.style.display = 'block';
                             }
                             td.appendChild(input);
                             break;
@@ -194,9 +232,11 @@
                             input.onclick = function () {
                                 var tr = this.closest('tr');
                                 var justificativa = tr.querySelector('.justificativa');
+                                var acao = tr.querySelector('.acao');
                                 var gravidade = tr.querySelector('.gravidade');
 
                                 justificativa.style.display = 'block';
+                                acao.style.display = 'block';
                                 gravidade.style.display = 'block';
                             }
 
@@ -215,6 +255,17 @@
                             break;
 
                             
+                        case 4:
+                            var acao = document.createElement('textarea');
+                            acao.type = 'text';
+                            acao.className = 'form-control acao';
+                            acao.style.display = 'none';
+                            acao.name = i;
+                            acao.placeholder = 'Ação corretiva!'
+                            acao.setAttribute("acao", i)
+                            td.appendChild(acao);
+
+                            break;
 
                         default:
                             var gravidade = document.createElement('select');
@@ -223,15 +274,15 @@
                             gravidade.name = i;
 
                             var alta = document.createElement('option');
-                            alta.value = 'alta';
+                            alta.value = 'alta / 3 dias';
                             alta.textContent = 'Alta / 3 dias';
 
                             var media = document.createElement('option');
-                            media.value = 'média';
+                            media.value = 'média / 2 dias';
                             media.textContent = 'Média / 2 dias';
 
                             var baixa = document.createElement('option');
-                            baixa.value = 'baixa';
+                            baixa.value = 'baixa / 1 dia';
                             baixa.textContent = 'Baixa / 1 dia';
 
                             gravidade.appendChild(alta);
@@ -367,7 +418,10 @@
                 "nome_projeto": document.getElementById("NomeProj").value,
                 "responsavel_projeto": document.getElementById("ResponsavelProj").value,
                 "rqa_projeto": document.getElementById("RQA Proj").value,
-                "email_nc": document.getElementById("EmailNC").value
+                "email_nc": document.getElementById("EmailNC").value,
+                "email_nc_escalonamento": document.getElementById("EmailNCE").value,
+                "responsavel_escalonamento": document.getElementById("ResponsavelEscalonamento").value
+
             };
 
             var xhttp = new XMLHttpRequest();

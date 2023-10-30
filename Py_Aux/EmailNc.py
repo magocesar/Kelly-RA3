@@ -27,7 +27,7 @@ class EmailNc:
         """
 
         for file in os.listdir(self.dir_nc):
-            mail.Attachments.Add(f"C:\\Users\\cesin\\OneDrive\\Área de Trabalho\\Kelly-RA3\\ExcelNc\\{self.nome_proj}\\{file}")
+            mail.Attachments.Add(f"C:\projetos\Kelly-RA3\\ExcelNc\\{self.nome_proj}\\{file}")
 
         mail.Send()
         print("Email enviado com sucesso!")
