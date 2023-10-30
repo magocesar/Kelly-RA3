@@ -36,7 +36,7 @@
     <div class="container">
         <div class="input-group mt-3">
             <label for="inputTxt" class="input-group-text">RQA Projeto</label>
-            <input type="text" class="form-control" id="RQA Proj" aria-describedby="inputTxt">
+            <input type="text" class="form-control" id="RQA_Proj" aria-describedby="inputTxt">
         </div>
     </div>
 
@@ -50,7 +50,7 @@
     <div class="container">
         <div class="input-group mt-3">
             <label for="inputTxt" class="input-group-text">Responsável de Escalonamento</label>
-            <input type="text" class="form-control" id="ResponsavelEscalonamento " aria-describedby="inputTxt">
+            <input type="text" class="form-control" id="RE" aria-describedby="inputTxt">
         </div>
     </div>
 
@@ -273,15 +273,15 @@
                             gravidade.name = i;
 
                             var alta = document.createElement('option');
-                            alta.value = 'alta / 3 dias';
+                            alta.value = 'Alta';
                             alta.textContent = 'Alta / 3 dias';
 
                             var media = document.createElement('option');
-                            media.value = 'média / 2 dias';
+                            media.value = 'Média';
                             media.textContent = 'Média / 2 dias';
 
                             var baixa = document.createElement('option');
-                            baixa.value = 'baixa / 1 dia';
+                            baixa.value = 'Baixa';
                             baixa.textContent = 'Baixa / 1 dia';
 
                             gravidade.appendChild(alta);
@@ -327,9 +327,12 @@
         function apagarCampos(){
         var inputs = document.getElementsByTagName("input");
 
+        //Formulario de envio de mail nao deve ser alterado
         for(var i = 0; i < inputs.length; i++){
             if(inputs[i].getAttribute("type") == "radio"){
-                inputs[i].checked = false;
+                if(inputs[i].getAttribute("id") != "emailNormal" && inputs[i].getAttribute("id") != "emailEscalonamento"){
+                    inputs[i].checked = false;
+                }
             }
         }
 
@@ -353,6 +356,9 @@
         }
     }
         function enviar(){
+
+            console.log("Começando a enviar")
+
             //Enviar dados para api por formato json
 
             var arr_perg = [];
@@ -383,13 +389,13 @@
             var inputs = document.getElementsByTagName("input");
 
             for(var i = 0; i < inputs.length; i++){
-                if(inputs[i].getAttribute("type") == "radio"){
+                if(inputs[i].getAttribute("id_perg_verd") != null){
                     if(inputs[i].checked){
-                        if(inputs[i].getAttribute("id_perg_verd") != null){
-                            arr_resp.push(1);
-                        }else{
-                            arr_resp.push(0);
-                        }
+                        arr_resp.push(1);
+                    }
+                }else if(inputs[i].getAttribute("id_perg_fals") != null){
+                    if(inputs[i].checked){
+                        arr_resp.push(0);
                     }
                 }
             }
@@ -399,11 +405,11 @@
             var textareas = document.getElementsByTagName("textarea");
 
             for(var i = 0; i < textareas.length; i++){
-                if(textareas[i].className == "form-control justificativa"){
+                if(textareas[i].getAttribute("justificativa") != null){
                     arr_text_area.push(textareas[i].value);
-                }else{
-
-                }arr_acao.push(textareas[i].value);
+                }else if(textareas[i].getAttribute("acao") != null){
+                    arr_acao.push(textareas[i].value);
+                }
             }
 
             console.log(arr_text_area);
@@ -428,6 +434,8 @@
 
             console.log(precisaEscalonar);
 
+            console.log(document.getElementById("RE").value)
+
             var json = {
                 "perguntas": arr_perg,
                 "respostas": arr_resp,
@@ -436,12 +444,14 @@
                 "gravidades": arr_gravidade,
                 "nome_projeto": document.getElementById("NomeProj").value,
                 "responsavel_projeto": document.getElementById("ResponsavelProj").value,
-                "rqa_projeto": document.getElementById("RQA Proj").value,
+                "rqa_projeto": document.getElementById("RQA_Proj").value,
                 "email_nc": document.getElementById("EmailNC").value,
                 "email_nc_escalonamento": document.getElementById("EmailNCE").value,
-                "responsavel_escalonamento": document.getElementById("ResponsavelEscalonamento").value,
+                "responsavel_escalonamento": document.getElementById("RE").value,
                 "precisa_escalonar": precisaEscalonar
             };
+
+            console.log("Depois do json")
 
             var xhttp = new XMLHttpRequest();
             var url = "http://127.0.0.1:5000/handle_radio_data"
@@ -464,7 +474,6 @@
         //Caso todos os campos forem marcados, criar botão de input
         window.addEventListener("click", function(){
 
-
             if(!document.getElementById("div-perg")){
                 return;
             }
@@ -478,7 +487,7 @@
             var inputs_totais = [];
 
             for(var i = 0; i < inputs_totais_pagina.length; i++){
-                if(inputs_totais_pagina[i].getAttribute("type") == "radio"){
+                if(inputs_totais_pagina[i].getAttribute("type") == "radio" && inputs_totais_pagina[i].getAttribute("id") != "emailNormal" && inputs_totais_pagina[i].getAttribute("id") != "emailEscalonamento"){
                     inputs_totais.push(inputs_totais_pagina[i]);
                 }
             }
@@ -501,28 +510,28 @@
             }
 
             var textareas = document.getElementsByTagName("textarea");
-            var textarea_preenchidos = [];
+            var justicativas = [];
+            var acao = [];
 
             for(var i = 0; i < textareas.length; i++){
-                if(textareas[i].value != ""){
-                    textarea_preenchidos.push(textareas[i]);
+                if(textareas[i].getAttribute("justificativa") != null && textareas[i].value != ""){
+                    justicativas.push(textareas[i]);
+                }else if(textareas[i].getAttribute("acao") != null && textareas[i].value != ""){
+                    acao.push(textareas[i]);
                 }
             }
 
             const regex_email = /\S+@\S+\.\S+/;
 
             if(!regex_email.test(document.getElementById("EmailNC").value)){
-                console.log("Email Normal Invalido")
                 return;
             }
 
             if(!regex_email.test(document.getElementById("EmailNCE").value)){
-                console.log("Email Escalonamento Invalido")
                 return;
             }
 
-            if(inputs_selecionados.length == inputs_totais.length / 2 && inputs_falsos_selecionados.length == textarea_preenchidos.length / 2
-                && document.getElementById("NomeProj").value != "" && document.getElementById("ResponsavelProj").value != "" && document.getElementById("RQA Proj").value != ""){
+            if(inputs_totais.length / 2 == inputs_selecionados.length && justicativas.length == inputs_falsos_selecionados.length && acao.length == inputs_falsos_selecionados.length){
 
                 if(document.getElementById("btn-enviar")){
                     return;

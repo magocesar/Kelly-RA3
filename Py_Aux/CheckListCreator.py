@@ -27,6 +27,12 @@ class CheckListCreator:
         except:
             print("Error")
             return False
+        try:
+            if not os.path.exists(f"./ExcelCheckList/{self.nome_proj}"):
+                os.makedirs(f"./ExcelCheckList/{self.nome_proj}")
+        except:
+            print("Error")
+            return False
 
     def _create_checklist(self):
         ws = self.template.active
@@ -114,5 +120,5 @@ class CheckListCreator:
 
     def save(self):
         currentTime = time()
-        self.template.save(f"ExcelCheckList/CheckList_{self.nome_proj}_{currentTime}.xlsx")
+        self.template.save(f"./ExcelCheckList/{self.nome_proj}/CheckList_{self.nome_proj}_{currentTime}.xlsx")
         return f"Excel/CheckList_{self.nome_proj}_{currentTime}.xlsx"

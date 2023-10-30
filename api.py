@@ -14,12 +14,10 @@ def hello():
 def handle_ratio_data():
 
     request_data = request.get_json()
-
-    print(request_data['precisa_escalonar'])
     
     cc = CheckListCreator(request_data['perguntas'], request_data['respostas'], request_data['nome_projeto'])
 
-    nc = CreateNc(request_data['perguntas'], request_data['respostas'], request_data['justificativas'], request_data['gravidades'], request_data['nome_projeto'], request_data['responsavel_projeto'], request_data['rqa_projeto'])
+    nc = CreateNc(request_data['perguntas'], request_data['respostas'], request_data['justificativas'], request_data['gravidades'], request_data['nome_projeto'], request_data['responsavel_projeto'], request_data['rqa_projeto'], request_data['acoes'], request_data["responsavel_escalonamento"])
 
     dir_nc, len_nc = nc.start()
 
@@ -38,9 +36,15 @@ def handle_ratio_data():
     
 
     if(len_nc > 0):
+        print("Precisa mandar email")
         email = EmailNc(request_data['nome_projeto'], request_data['responsavel_projeto'], request_data['rqa_projeto'], dir_nc, len_nc, request_data['email_nc'])
-        email.mandarEmail()
-        return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso e email enviado.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
+        if(request_data['precisa_escalonar'] == False):
+            email.mandarEmail()
+            return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso e email enviado.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
+        else:
+            email.mandarNcEscalonada(request_data['responsavel_escalonamento'], request_data['email_nc_escalonamento'])
+            return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso e email enviado ao Supervisor.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
+
     else:
         return jsonify({'status': 'Success', 'message': "Arquivos criados com sucesso, nenhuma NC.", 'dir_nc': dir_nc, 'len_nc': len_nc, 'dir_cc': dir_cc})
 
