@@ -1,0 +1,84 @@
+Capa do projeto está com nome do projeto?
+Capa do projeto está com nome do sistema?
+As datas do histórico de revisão estão preenchidas?
+As versões do histórico de revisão estão preenchidas?
+As descrições do histórico de revisão estão preenchidos?
+Os Autores do histórico de revisão estão preenchidos?
+Histórico de revisão preenchido e mantido?
+1 A introdução apresenta uma análise geral do projeto?
+1 A introdução apresenta a finalidade do projeto?
+1 A introdução apresenta as definições do projeto?
+1 A introdução apresenta as referências do projeto?
+1.1 O tópico de finalidade apresenta os requisitos não funcionais do sistema?
+1.1 O tópico de finalidade apresenta o comportamento externo do sistema?
+1.1 O tópico de finalidade apresenta as restrições de design do sistema?
+1.1 O tópico de finalidade apresenta a visão geral dos requisitos do sistema?
+1.2 O tópico escopo apresenta uma descrição do aplicativo de software?
+1.2 O tópico escopo apresenta os recursos ou outros agrupamentos de subsistemas?
+1.2 O tópico escopo apresenta os modelo(s) que o projeto está associado?
+1.3 O tópico definições fornece as todos os termos  necessários à adequada interpretação do projeto?
+1.4 O tópico refêrencias fornece uma lista completa de todos os documentos mencionados em qualquer outra parte desse documento?
+1.4 O tópico refêrencias identifica os documentos identificado por título, número do relatório (se aplicável), data e organização de publicação?
+2 Na seção de Descrição Geral fornece uma visão abrangente dos fatores gerais que afetam o produto e seus requisitos?
+2 Na seção de Descrição Geral evita a especificação de requisitos específicos, focando em fornecer uma base para compreensão?
+2 Na seção de Descrição Geral a perspectiva do produto é claramente definida?
+2 Na seção de Descrição Geral as principais funções do produto são descritas de forma geral?
+2 As características dos usuários são mencionadas para fornecer uma compreensão básica de quem são os principais usuários do produto?
+2 Restrições, se houver, são identificadas nesta seção?
+2 Suposições e dependências relevantes são destacadas para fornecer contexto adicional?
+2 Subconjuntos de requisitos são mencionados para facilitar a compreensão e organização dos detalhes na Seção 3?
+3 No tópico requisitos específicos os requisitos necessários são pontuados e especificados? 
+3.1 No tópico Requisitos funcionais são apresentados os requisitos funcionais para cada tipo de usuário do sistema?
+3.1 No tópico requisitos funcionais os requisitos são apresentados de maneira não ambígua?
+3.1 No tópico requisitos funconais são apresnetados os requisitos do sistema?
+3.1 No tópico requisitos funcionais quando usadas interfaces externas para o desenvilvemnto do sistema estas são apresentadas e especificadas?
+3.1.1 (E requisitos adiante) Os requisitos funcionais são descritos e especificados de maneira não ambígua e coesa? 
+3.2 As caracteristicas de desempenho do sistema são descritas?
+3.2 O tópico requisitos de performance está preenchido?
+3.2.1 O requisito de performance descrito está não ambíguo? 
+3.2.1 O tópico possuem requisitos repetidos?
+3.2.1 O tópico está preenchido?
+3.3.1 O tópico está preenchido?
+3.3.1 São indicadas as restrições de design do sistema?
+3.3.1.1 As restrições de design não se repetem?
+3.3.1.1 As restrições de design são preenchidas?
+3.3.1.1 As restrições de design não são ambíguas?
+3.3.2 O tópico é preenchido mostrando quais interfaces são suportadas pelo sistema? 
+3.3.2 O tópico descreve as espcifcidades de cada interface que o sistema conterá?
+3.3.2 O tópico está preenchido? 
+3.3.2.1 O tópico está preenchido? 
+3.3.2.1 O tópico descreve quais interfaces serão usadas pelo usuário?
+3.3.2.2 O tópico está preenchido?
+3.3.2.2 O tópico descreve as interfaces de harware que o sistema possuirá? 
+3.3.2.2 O tópico descreve as especificidades das interfaces de hardware?
+3.3.2.3 O tópico está preenchido?
+3.3.2.3 O tópico descreve as interfaces de software com outros componentes do software?
+3.3.2.3 O tópico descrve com quais componentes a interface deve interagir? 
+3.3.2.4 O tópico está preenchido? 
+3.3.2.4 O tópico descreve as interfaces de comunicação com outros sistemas?
+3.3.3 O tópico está preenchido?
+3.3.3 O tópico contém observações de todos os possíveis avisos legais? 
+3.3.4 O tópico está preenchido? 
+3.3.4 O tópico apresenta todos os padrões usados no sistema?
+3.3.4 O tópico apresenta as referências das seções do padrão utilizado?
+3.3.5 O tópico está preenchido?
+3.3.5 O tópico descreve todos os componentes comprados para o desenvolvimento do sistema? 
+3.3.5 O tópico descreve todas as restrições de utilização ou de licenciamento destes componentes?
+3.3.5 O tópico descreve os padrões associados a este componente?
+3.4 O tópico está preenchido?
+3.4.1 O tópico está preenchido? 
+3.4.1 O tópico apresenta os requisitos de usabilidade do sistema?
+3.4.1 O tópico não repete requisitos?
+3.4.1.1 O tópico descreve os requisitos de maneira coesa e não ambígua? 
+3.4.1.1 O tópico está preenchido?
+3.4.1.1 O tópico possui apenas a descrição de requisitos de usabilidade? 
+3.4.1.1 O tópico deve pontuar os requisitos de usabilidade por ordem?
+3.4.2 O tópico está preenchido?
+3.4.2 O tópico possui requisitos de confiabilidade?
+3.4.2 O tópico indica o tempo de disponibilidade do sistema? 
+3.4.2 O tópico sugeste um tempo médio entre falhas no sistema? 
+3.4.2 O tópico indica um tempo médio para correção de falhas? 
+3.4.2 O tópico demonstra a taxa máxima de erros por milhares de linhas de código?
+3.4.2.1 O tópico descreve os requisitos de confiabilidade?
+3.4.2.1 O tópico descreve de maneira coesa e não ambígua?
+3.4.2.1 O tópico está prenchido?
